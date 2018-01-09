@@ -1,25 +1,26 @@
 {
-   "expo": {
-      "name": "Escudo Monitoramento",
-      "description": "Um aplicativo para recebimento de boleto",
-      "slug": "escudo-monitoramento",
-      "privacy": "public",
-      "sdkVersion": "23.0.0",
-      "version": "1.0.0",
-      "orientation": "portrait",
-      "primaryColor": "#cccccc",
-      "icon": "./assets/splash.png",
-      "splash": {
-         "image": "./assets/splash.png",
-         "resizeMode": "contain",
-         "backgroundColor": "#ffffff"
-      },
-      "ios": {
-         "supportsTablet": true,
-         "bundleIdentifier": "com.escudomonitoramento.escudomonitoramentoboleto"
-      },
-      "android": {
-         "package": "com.escudomonitoramento.escudomonitoramentoboleto"
-      }
-   }
+    "expo": {
+        "name": "Escudo Monitoramento",
+        "description": "Um aplicativo para recebimento de boleto",
+        "slug": "escudo-monitoramento",
+        "privacy": "public",
+        "sdkVersion": "23.0.0",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "primaryColor": "#cccccc",
+        "icon": "./assets/splash.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#fff"
+        },
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier":
+                "com.escudomonitoramento.escudomonitoramentoboleto"
+        },
+        "android": {
+            "package": "com.escudomonitoramento.escudomonitoramentoboleto"
+        }
+    }
 }

@@ -11,26 +11,13 @@ import { AsyncStorage, Alert } from 'react-native';
  * @returns {Promise<string>}
  */
 async function getBackendToken(cpfcnpj, pushToken) {
-    let backendToken = await AsyncStorage.getItem('backendToken');
-    if (!backendToken) {
-        try {
-            let response = await axios.post(
-                `${config.URL_BASE}/auth/by-cpfcnpj`,
-                {
-                    cpfcnpj,
-                    token: pushToken
-                }
-            );
-            backendToken = response.data.token;
-        } catch {
-            Alert.alert(
-                'Ocorreu um erro na pesquisa',
-                'Favor verificar seu CPF ou CNPJ',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        }
-    }
+    let response = await axios.post(`${config.URL_BASE}/auth/by-cpfcnpj`, {
+        cpfcnpj,
+        token: pushToken
+    });
+    const backendToken = response.data.token;
+    AsyncStorage.setItem('backendToken', backendToken);
+
     return backendToken;
 }
 

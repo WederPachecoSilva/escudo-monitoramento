@@ -1,52 +1,45 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import { Constants } from 'expo';
 
 import ListaBoletos from './src/componentes/ListaBoletos';
 import Login from './src/componentes/Login';
 
 const Stack = StackNavigator({
-   Home: {
-      screen: Login,
-      navigationOptions: {
-         title: 'ESCUDO MONITORAMENTO',
-         headerTitleStyle: {
-            color: 'white'
-         },
-         headerStyle: {
-            backgroundColor: 'black'
-         }
-      }
-   },
-   ListaBoletos: {
-      screen: ListaBoletos,
-      navigationOptions: {
-         title: 'SEUS BOLETOS',
-         headerTitleStyle: {
-            color: 'white'
-         },
-         headerBackStyle: {
-            color: 'white',
-            backgroundColor: 'white'
-         },
-         headerStyle: {
-            backgroundColor: 'black'
-         }
-      }
-   }
+    Home: {
+        screen: Login,
+        navigationOptions: {
+            title: 'ESCUDO MONITORAMENTO',
+            headerTitleStyle: {
+                color: 'white',
+                marginRight: 'auto',
+                marginLeft: 'auto'
+            },
+            headerStyle: {
+                backgroundColor: 'black',
+                paddingTop: Constants.statusBarHeight
+            }
+        }
+    },
+    ListaBoletos: {
+        screen: ListaBoletos
+        // navigationOptions: ({navigation}) => ({
+        //     title: 'SEUS BOLETOS',
+        //     headerTitleStyle: {
+        //         color: 'white',
+        //         marginRight: 'auto',
+        //         marginLeft: 'auto'
+        //     },
+        //     headerStyle: {
+        //         backgroundColor: 'black',
+        //         paddingTop: Constants.statusBarHeight
+        //     },
+        //     headerBackTitle: null,
+        //     headerRight: <LogoutButton navigation={navigation}>
+        // })
+    }
 });
 
-export default class App extends Component {
-   render() {
-      return <Stack style={styles.container} />;
-   }
-}
+const App = () => <Stack />;
 
-const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center'
-   }
-});
+export default App;
