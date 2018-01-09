@@ -11,6 +11,15 @@ import Logo from './Logo';
 export default class ListaBoletos extends React.Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'SEUS BOLETOS',
+        // header: ({ state, setParams }) => ({
+        //     style: {
+        //         height: 40,
+        //         backgroundColor: '#0099ff',
+        //         justifyContent: 'center'
+        //     },
+        //     titleStyle: {},
+        //     tintColor: '#fff'
+        // }),
         headerTitleStyle: {
             color: 'white'
             // marginRight: 'auto',
@@ -19,7 +28,7 @@ export default class ListaBoletos extends React.Component {
         headerStyle: {
             backgroundColor: 'black',
             paddingTop: Constants.statusBarHeight,
-            height: 60
+            height: 80
         },
         headerBackTitle: null,
         headerRight: <LogoutButton navigation={navigation} />,

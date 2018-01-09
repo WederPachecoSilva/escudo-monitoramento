@@ -16,6 +16,7 @@ const Stack = StackNavigator({
                 marginLeft: 'auto'
             },
             headerStyle: {
+                height: 80,
                 backgroundColor: 'black',
                 paddingTop: Constants.statusBarHeight
             }
@@ -23,20 +24,6 @@ const Stack = StackNavigator({
     },
     ListaBoletos: {
         screen: ListaBoletos
-        // navigationOptions: ({navigation}) => ({
-        //     title: 'SEUS BOLETOS',
-        //     headerTitleStyle: {
-        //         color: 'white',
-        //         marginRight: 'auto',
-        //         marginLeft: 'auto'
-        //     },
-        //     headerStyle: {
-        //         backgroundColor: 'black',
-        //         paddingTop: Constants.statusBarHeight
-        //     },
-        //     headerBackTitle: null,
-        //     headerRight: <LogoutButton navigation={navigation}>
-        // })
     }
 });
 

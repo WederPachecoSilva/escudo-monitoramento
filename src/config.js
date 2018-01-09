@@ -3,4 +3,4 @@ const config = {
 };
 export default config;
 export const IMAGE_HEIGHT = 250;
-export const IMAGE_HEIGHT_SMALL = 140;
+export const IMAGE_HEIGHT_SMALL = 120;

@@ -17,7 +17,7 @@ import config, { IMAGE_HEIGHT, IMAGE_HEIGHT_SMALL } from '../config';
 import askNotificationPermission from '../helpers/askNotificationPermission';
 import ordenaPorData from '../helpers/ordenaPorData';
 import getBackendToken from '../helpers/getBackendToken';
-// import getBackendToken from '../helpers/getBackendToken';
+import LogoAnimada from './LogoAnimada';
 
 export default class Login extends Component {
     constructor(props) {
@@ -27,31 +27,16 @@ export default class Login extends Component {
             cpfcnpj: ''
         };
         this.pushToken = '';
-        // this.backendToken = '';
         this.buscaBoletos = this.buscaBoletos.bind(this);
         // @ts-ignore
         this.navigate = this.props.navigation.navigate.bind(this);
-        this.imageHeight = new Animated.Value(IMAGE_HEIGHT);
     }
 
     async componentWillMount() {
-        // Se tiver token, já direciona para ListaBoletos
         const backendToken = await AsyncStorage.getItem('backendToken');
         if (backendToken) {
-            this.navegaListaBoletos(backendToken);
+            this.navegaParaListaBoletos(backendToken);
         }
-
-        this.keyboardDidShow = Keyboard.addListener(
-            'keyboardDidShow',
-            // this.keyboardDidShow,
-            this._keyboardDidShow
-        );
-
-        this.keyboardDidHide = Keyboard.addListener(
-            'keyboardDidHide',
-            // this._keyboardDidHide
-            this._keyboardDidHide
-        );
 
         let _pushToken = await AsyncStorage.getItem('pushToken');
         if (!_pushToken) {
@@ -63,12 +48,7 @@ export default class Login extends Component {
         this.pushToken = _pushToken;
     }
 
-    componentWillUnmount() {
-        this.keyboardDidShow.remove();
-        this.keyboardDidHide.remove();
-    }
-
-    navegaListaBoletos(backendToken) {
+    navegaParaListaBoletos(backendToken) {
         // @ts-ignore
         const { navigate } = this.props.navigation;
         axios.defaults.baseURL = config.URL_BASE;
@@ -91,19 +71,14 @@ export default class Login extends Component {
             });
     }
 
-    /**
-     * @param {string} cpfcnpj
-     * @returns {void}
-     */
     buscaBoletos(cpfcnpj) {
         if (this.validaEntrada() === 'erro') {
             return;
         }
-
         // prettier-ignore
         getBackendToken(cpfcnpj, this.pushToken)
             .then(backendToken => {
-                this.navegaListaBoletos(backendToken)
+                this.navegaParaListaBoletos(backendToken)
             })
             .catch(
                 err => {
@@ -161,95 +136,67 @@ export default class Login extends Component {
         return 'sucesso';
     }
 
-    _keyboardDidShow = event => {
-        Animated.timing(this.imageHeight, {
-            duration: 500,
-            toValue: IMAGE_HEIGHT_SMALL
-        }).start();
-    };
-
-    _keyboardDidHide = event => {
-        Animated.timing(this.imageHeight, {
-            duration: 500,
-            toValue: IMAGE_HEIGHT
-        }).start();
-    };
-
     render() {
         return (
-            <View style={styles.container}>
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container}
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                <LogoAnimada source={require('../../assets/logo_md.png')} />
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center'
+                    }}
                 >
-                    <Animated.Image
-                        source={require('../../assets/logo_md.png')}
-                        style={[
-                            styles.image,
-                            {
-                                height: this.imageHeight,
-                                width: this.imageHeight
-                            }
-                        ]}
-                    />
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'center'
-                        }}
-                    >
-                        <CheckBox
-                            title="CPF"
-                            checked={this.checkCPF()}
-                            onPress={() =>
-                                this.setState({
-                                    tipoDeBusca: 'cpf',
-                                    cpfcnpj: ''
-                                })
-                            }
-                            checkedIcon="dot-circle-o"
-                            checkedColor="#3399ff"
-                            uncheckedIcon="circle-o"
-                        />
-                        <CheckBox
-                            title="CNPJ"
-                            checked={this.checkCNPJ()}
-                            checkedIcon="dot-circle-o"
-                            uncheckedIcon="circle-o"
-                            checkedColor="#3399ff"
-                            onPress={() =>
-                                this.setState({
-                                    tipoDeBusca: 'cnpj',
-                                    cpfcnpj: ''
-                                })
-                            }
-                        />
-                    </View>
-                    <TextInputMask
-                        style={styles.input}
-                        value={this.state.cpfcnpj}
-                        type={this.state.tipoDeBusca}
-                        onSubmitEditing={cpfcnpj => {
-                            this.buscaBoletos(this.state.cpfcnpj);
-                            Keyboard.dismiss;
-                        }}
-                        onChangeText={cpfcnpj =>
+                    <CheckBox
+                        title="CPF"
+                        checked={this.checkCPF()}
+                        onPress={() =>
                             this.setState({
-                                cpfcnpj
+                                tipoDeBusca: 'cpf',
+                                cpfcnpj: ''
                             })
                         }
-                        placeholder={'Insira seu CPF / CNPJ'}
+                        checkedIcon="dot-circle-o"
+                        checkedColor="#3399ff"
+                        uncheckedIcon="circle-o"
                     />
-                    <Button
-                        title="Enviar"
-                        onPress={() => this.buscaBoletos(this.state.cpfcnpj)}
-                        raised
-                        fontSize={14}
-                        borderRadius={10}
-                        buttonStyle={{ height: 17, width: 80 }}
+                    <CheckBox
+                        title="CNPJ"
+                        checked={this.checkCNPJ()}
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checkedColor="#3399ff"
+                        onPress={() =>
+                            this.setState({
+                                tipoDeBusca: 'cnpj',
+                                cpfcnpj: ''
+                            })
+                        }
                     />
-                </KeyboardAvoidingView>
-            </View>
+                </View>
+                <TextInputMask
+                    style={styles.input}
+                    value={this.state.cpfcnpj}
+                    type={this.state.tipoDeBusca}
+                    onSubmitEditing={cpfcnpj => {
+                        this.buscaBoletos(this.state.cpfcnpj);
+                        Keyboard.dismiss;
+                    }}
+                    onChangeText={cpfcnpj =>
+                        this.setState({
+                            cpfcnpj
+                        })
+                    }
+                    placeholder={'Insira seu CPF / CNPJ'}
+                />
+                <Button
+                    title="Enviar"
+                    onPress={() => this.buscaBoletos(this.state.cpfcnpj)}
+                    raised
+                    fontSize={14}
+                    buttonStyle={styles.button}
+                    borderRadius={3}
+                />
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -259,10 +206,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF'
-    },
-    image: {
-        marginBottom: 35
+        backgroundColor: '#fff'
     },
     input: {
         marginTop: 20,
@@ -270,5 +214,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingVertical: 8,
         textAlign: 'center'
+    },
+    button: {
+        height: 30,
+        width: 250
     }
 });
